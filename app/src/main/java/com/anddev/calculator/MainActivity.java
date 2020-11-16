@@ -5,10 +5,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String VALUE_ONE = "value_one";
+    private static final String OPERATION = "operation_value";
+    private static final String TEXTVIEW_TEXT = "text_of_textView";
     private TextView input;
     private Button but1;
     private Button but2;
@@ -25,14 +29,21 @@ public class MainActivity extends AppCompatActivity {
     private Button butDiv;
     private Button butEquals;
     private Button butClear;
+    private String textView_text;
+
 
     private int valueOne;
     private Operation operation = Operation.EMPTY;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null) {
+            operation = (Operation) savedInstanceState.getSerializable(OPERATION);
+            valueOne = savedInstanceState.getInt(VALUE_ONE);
+        }
 
         input = findViewById(R.id.number_input);
         but1 = findViewById(R.id.but_1);
@@ -209,9 +220,21 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 input.setText(result);
+
             }
         });
     }
+    @Override
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        input.setText(savedInstanceState.getString(TEXTVIEW_TEXT));
+    }
 
-
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt(VALUE_ONE, valueOne);
+        outState.putString(TEXTVIEW_TEXT, input.getText().toString());
+        outState.putSerializable(OPERATION, operation);
+        super.onSaveInstanceState(outState);
+    }
 }
