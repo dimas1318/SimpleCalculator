@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         butMult = findViewById(R.id.but_mult);
         butDiv = findViewById(R.id.but_div);
         butEquals = findViewById(R.id.but_equals);
-
+        butClear = findViewById((R.id.but_clear));
 
         butClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 String text = input.getText().toString();
                 valueOne = Integer.parseInt(text);
                 input.setText("");
-                operation = Operation.ADD;
+                operation = Operation.SUB;
             }
         });
 
@@ -200,6 +200,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case MULT:
                         result = String.valueOf(valueOne * valueTwo);
+                        break;
+                    case EMPTY:
+                        result = input.getText().toString();
                         break;
                     default:
                         result = "Что-то не так";
